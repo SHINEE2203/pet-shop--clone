@@ -50,14 +50,17 @@ var getdetails =  Promise.all([
     doglist.innerHTML = ''; //wipping the old data  
     
     // loading new data
-    dogdata.forEach((arr) => {
+    dogdata.forEach(async (arr) => {
+      var  dogimageURL = "https://api.thedogapi.com/v1/images/"+arr.reference_image_id;
+      let resimage = await fetch(dogimageURL, {method:"GET"});
+      let jsdata = await resimage.json()
       
       doglist.innerHTML  += `
         <div class="col-sm-12 col-md-6 offset-md-2 col-lg-4 offset-lg-0 col-xl-3 col-xxl-3" id="content">
               <div class="container"> 
                   <div class="image-layout">
                   
-                      <img loading="lazy" src=${arr.image.url} class="image">   
+                      <img loading="lazy" src=${jsdata.url} class="image">   
                   </div>
                   <div class="overlay">
                   <div class="text">                       
@@ -138,3 +141,22 @@ var getdetails =  Promise.all([
    randomfact()
   
   //-------Display random fact function ends -----------
+// Get the button
+let mybutton = document.getElementById("myBtn");
+
+// When the user scrolls down 20px from the top of the document, show the button
+window.onscroll = function() {scrollFunction()};
+
+function scrollFunction() {
+  if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+    mybutton.style.display = "block";
+  } else {
+    mybutton.style.display = "none";
+  }
+}
+
+// When the user clicks on the button, scroll to the top of the document
+function topFunction() {
+  document.body.scrollTop = 0;
+  document.documentElement.scrollTop = 0;
+}
